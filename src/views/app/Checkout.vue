@@ -934,9 +934,7 @@ export default {
     ensureDefaultProofData() {
       this.proofData.type = 'boleta';
       const rawDni = String(this.userDNI || this.$store.state.dni || '').replace(/\D/g, '');
-      if (rawDni.length >= 8) {
-        this.proofData.document = rawDni.slice(0, 8);
-      }
+      this.proofData.document = rawDni;
     },
 
     nextStep() {
@@ -1343,11 +1341,8 @@ export default {
           this.sending = false;
           return;
         }
-        if (payload.proofType === 'boleta' && (!payload.proofDocument || payload.proofDocument.length !== 8)) {
-          this.activationError = 'El documento para boleta debe tener 8 dígitos.';
-          this.sending = false;
-          return;
-        }
+        // Se omitió la validación estricta de 8 dígitos de boleta ya que el paso de facturación fue eliminado
+        // y permite DNIs/CIs de cualquier longitud (ej. Bolivia).
         // Facturación está deshabilitada en este checkout (solo Despacho → Pago).
 
         // Validar método de pago si el saldo no cubre el total
