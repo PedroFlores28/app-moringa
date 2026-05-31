@@ -370,6 +370,13 @@
                     <div v-if="getBankInfo(selectedBank).cci" class="bank-info-item">
                       <strong>CCI:</strong> {{ getBankInfo(selectedBank).cci }}
                     </div>
+                    <div v-if="getBankInfo(selectedBank).qrImage" class="bank-info-item qr-info-item">
+                      <strong>QR para pago:</strong>
+                      <div class="qr-checkout-wrapper">
+                        <img :src="getBankInfo(selectedBank).qrImage" class="qr-checkout-img" alt="QR de pago" />
+                        <p class="qr-checkout-hint">Escanea para pagar desde tu app bancaria</p>
+                      </div>
+                    </div>
                   </div>
                   
                 </div>
@@ -749,7 +756,8 @@ export default {
           account: method.account,
           holder: method.holder,
           type: method.type,
-          cci: method.cci || ""
+          cci: method.cci || "",
+          qrImage: method.qrImage || ""
         };
       }
       return {};

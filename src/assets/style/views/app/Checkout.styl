@@ -1752,6 +1752,19 @@ $dispatch-gold-deep = #b8942e
     font-weight 600
     color #333
     min-width 80px
+  
+  &.qr-info-item
+    flex-direction column
+    align-items center
+    gap 12px
+    padding 16px 0
+    border-top 1px solid #e8e8e8
+    margin-top 12px
+    
+    strong
+      min-width auto
+      font-size 1rem
+      color #1b5e3a
 
 .payment-form-simple
   background #f8f9fa
@@ -3614,3 +3627,38 @@ $dispatch-gold-deep = #b8942e
 
     &:hover
       text-decoration underline
+
+// QR image en checkout
+.qr-checkout-wrapper
+  display flex
+  flex-direction column
+  align-items center
+  padding 20px
+  margin 15px 0
+  background white
+  border-radius 12px
+  box-shadow 0 2px 12px rgba(0,0,0,0.08)
+  border 1px solid #e8e8e8
+
+.qr-checkout-img
+  max-width 200px
+  max-height 200px
+  border-radius 8px
+  box-shadow 0 4px 16px rgba(0,0,0,0.12)
+  border 2px solid #fff
+  transition transform 0.3s ease
+  cursor pointer
+
+  &:hover
+    transform scale(1.05)
+
+.qr-checkout-hint
+  margin-top 12px
+  font-size 0.9rem
+  color #666
+  font-weight 500
+  text-align center
+
+  i
+    margin-right 6px
+    color #1b5e3a
