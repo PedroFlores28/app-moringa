@@ -125,7 +125,8 @@
               <div class="master-trophy-container">
                 <img
                   class="master-trophy-img"
-                  src="https://ik.imagekit.io/asu/sifrah/Trofeo%20sifrah_sIeu2fnie.png"
+                  :src="copaClassMoringaImg"
+                  alt="Copa Class Moringa"
                 />
                 <h2 class="master-trophy-title">¡Felicidades!</h2>
                 <p class="master-trophy-msg">
@@ -709,6 +710,7 @@ import {
   isEmpresarioTier,
 } from "@/utils/affiliationPlans";
 import { normalizePlanList, resolvePlanDisplayName } from "@/utils/planNames";
+import copaClassMoringaImg from "@/assets/img/copa class moringa.svg";
 
 const INVOICE_ROOT = process.env.VUE_APP_INVOICE_ROOT;
 
@@ -719,6 +721,7 @@ export default {
   },
   data() {
     return {
+      copaClassMoringaImg,
       loading: true,
       sending: false,
 
