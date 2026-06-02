@@ -455,15 +455,15 @@
 
                 <tr>
 
-                  <th></th>
+                  <th class="col-user"></th>
 
                   <th>Paquete / Producto</th>
 
-                  <th>Monto</th>
+                  <th class="col-monto">Monto</th>
 
-                  <th>Fecha y hora</th>
+                  <th class="col-fecha">Fecha y hora</th>
 
-                  <th></th>
+                  <th class="col-menu"></th>
 
                 </tr>
 
@@ -493,7 +493,7 @@
 
                   <td>{{ row.product }}</td>
 
-                  <td class="col-monto">USD {{ formatMoney(row.amount) }}</td>
+                  <td class="col-monto">Bs {{ formatMoney(row.amount) }}</td>
 
                   <td class="col-fecha">{{ formatIncomeDate(row.date) }}</td>
 

@@ -51,7 +51,7 @@
               <td>{{ r.name }}</td>
               <td>{{ r.val }}</td>
               <td>{{ r.r * r.rr * 100 }} %</td>
-              <td>{{ r.val * r.r * r.rr }} USD</td>
+              <td>Bs {{ (r.val * r.r * r.rr).toFixed(2) }}</td>
             </tr>
           </tbody>
         </table>

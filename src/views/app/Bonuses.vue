@@ -150,17 +150,17 @@ export default {
     this.pays = data.pays;
 
     for (const pay of this.pays) {
-      if (pay.name == "star") pay._name = "ESTRELLA $15";
-      if (pay.name == "master") pay._name = "MASTER $30";
-      if (pay.name == "silver") pay._name = "PLATA $45";
-      if (pay.name == "gold") pay._name = "ORO $100";
-      if (pay.name == "sapphire") pay._name = "ZAFIRO $200";
-      if (pay.name == "RUBI") pay._name = "RUBI $300";
-      if (pay.name == "DIAMANTE") pay._name = "DIAMANTE $5.000";
-      if (pay.name == "DOBLE DIAMANTE") pay._name = "DOBLE DIAMANTE $10.000";
-      if (pay.name == "TRIPLE DIAMANTE") pay._name = "TRIPLE DIAMANTE $15.000";
+      if (pay.name == "star") pay._name = "ESTRELLA Bs 15";
+      if (pay.name == "master") pay._name = "MASTER Bs 30";
+      if (pay.name == "silver") pay._name = "PLATA Bs 45";
+      if (pay.name == "gold") pay._name = "ORO Bs 100";
+      if (pay.name == "sapphire") pay._name = "ZAFIRO Bs 200";
+      if (pay.name == "RUBI") pay._name = "RUBI Bs 300";
+      if (pay.name == "DIAMANTE") pay._name = "DIAMANTE Bs 5.000";
+      if (pay.name == "DOBLE DIAMANTE") pay._name = "DOBLE DIAMANTE Bs 10.000";
+      if (pay.name == "TRIPLE DIAMANTE") pay._name = "TRIPLE DIAMANTE Bs 15.000";
       if (pay.name == "DIAMANTE ESTRELLA")
-        pay._name = "DIAMANTE ESTRELLA $25.000";
+        pay._name = "DIAMANTE ESTRELLA Bs 25.000";
     }
 
     this.sapphire = data.bonuses.sapphire;
