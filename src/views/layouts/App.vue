@@ -711,7 +711,6 @@ export default {
     }
   },
   created() {
-    this.startNotificationLoop();
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile);
     this.loadTextPosition();
@@ -867,16 +866,7 @@ export default {
       // cada 20s
     },
     checkAndShowNotification() {
-      const missing = [];
-      if (!this.country) {
-        this.notification = "Por favor, completa tu perfil.";
-
-        setTimeout(() => {
-          this.notification = null;
-        }, 10000);
-      } else {
-        this.notification = null;
-      }
+      // Aviso "Por favor, completa tu perfil." deshabilitado.
     },
 
     toggleMenu() {
