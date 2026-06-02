@@ -2,8 +2,8 @@
   <div class="app">
     <div id="app">
       <transition name="fade">
-        <div v-if="notification" class="notification">
-          {{ notification }}
+        <div v-if="visibleNotification" class="notification">
+          {{ visibleNotification }}
         </div>
       </transition>
 
@@ -749,6 +749,12 @@ export default {
     },
     country() {
       return this.$store.state.country;
+    },
+    visibleNotification() {
+      if (!this.notification || this.notification === "Por favor, completa tu perfil.") {
+        return null;
+      }
+      return this.notification;
     },
     photo() {
       return this.$store.state.photo || 'https://ik.imagekit.io/asu/Lehaim/avatar_bEyc3MFLf.png';
