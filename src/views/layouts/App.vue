@@ -345,8 +345,11 @@
             </div>
           </div>
           <div class="sidebar-profile-actions">
-            <button type="button" class="sidebar-profile-action" aria-label="Notificaciones">
-              <i class="fas fa-bell"></i>
+            <button type="button" class="sidebar-profile-action" @click="copy_affiliation_link" aria-label="Compartir" style="position: relative;">
+              <i class="fas fa-share-alt"></i>
+              <span v-if="c_affiliation_link" style="position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 8px; white-space: nowrap; color: #4CAF50; font-size: 12px; font-weight: 600; z-index: 1000; display: flex; align-items: center; gap: 4px; background: rgba(0, 0, 0, 0.85); padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                Link copiado <i class="fas fa-check" style="color: #4CAF50;"></i>
+              </span>
             </button>
             <router-link to="/profile" class="sidebar-profile-action" @click.native="closeAllMenus">
               <i class="fas fa-cog"></i>

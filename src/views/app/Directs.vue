@@ -88,7 +88,7 @@
               <th>Teléfono</th>
               <th>Afiliado</th>
               <th>Activo</th>
-              <th>Puntaje</th>
+              <th>Productos</th>
             </tr>
           </thead>
           <tbody>
@@ -110,7 +110,7 @@
               </td>
               <td>
                 <span class="score-cell">
-                  {{ formatPoints(frontal.points) }}
+                  {{ frontal.groupProductCount || 0 }}
                   <i 
                     class="fab fa-whatsapp whatsapp-icon" 
                     @click.stop="openWhatsApp(frontal.phone)"
@@ -137,7 +137,7 @@
               <th>Teléfono</th>
               <th>Afiliado</th>
               <th>Activo</th>
-              <th>Puntaje</th>
+              <th>Productos</th>
             </tr>
           </thead>
           <tbody>
@@ -159,7 +159,7 @@
               </td>
               <td>
                 <span class="score-cell">
-                  {{ formatPoints(direct.points) }}
+                  {{ direct.groupProductCount || 0 }}
                   <i 
                     class="fab fa-whatsapp whatsapp-icon" 
                     @click.stop="openWhatsApp(direct.phone)"
