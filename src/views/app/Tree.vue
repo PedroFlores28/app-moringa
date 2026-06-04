@@ -150,16 +150,16 @@
                 <div class="info-section">
                   <h4 class="section-title">
                     <i class="fas fa-chart-line"></i>
-                    Puntos y Rendimiento
+                    Compras y volumen (mes actual)
                   </h4>
                   <div class="points-display">
                     <div class="point-card">
                       <div class="point-icon">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-box-open"></i>
                       </div>
                       <div class="point-details">
-                        <span class="point-label">Puntos Personales</span>
-                        <span class="point-value">{{ selec_node.points || 0 }}</span>
+                        <span class="point-label">Compras personales</span>
+                        <span class="point-value">{{ volumePersonal(selec_node) }}</span>
                       </div>
                     </div>
                     <div class="point-card">
@@ -167,17 +167,8 @@
                         <i class="fas fa-users"></i>
                       </div>
                       <div class="point-details">
-                        <span class="point-label">Puntos de Afiliación</span>
-                        <span class="point-value">{{ selec_node.affiliation_points || 0 }}</span>
-                      </div>
-                    </div>
-                    <div class="point-card">
-                      <div class="point-icon">
-                        <i class="fas fa-network-wired"></i>
-                      </div>
-                      <div class="point-details">
-                        <span class="point-label">Puntos Grupales</span>
-                        <span class="point-value">{{ selec_node.total_points !== undefined ? selec_node.total_points : '—' }}</span>
+                        <span class="point-label">Volumen grupal</span>
+                        <span class="point-value">{{ volumeGroup(selec_node) }}</span>
                       </div>
                     </div>
                   </div>
@@ -398,13 +389,13 @@
                <div class="points-container">
                                    <div class="point-item">
                     <i class="fas fa-user"></i>
-                    <span class="point-label">PP</span>
-                    <span class="point-value">{{ child.points || 0 }}</span>
+                    <span class="point-label">CP</span>
+                    <span class="point-value">{{ volumePersonal(child) }}</span>
                   </div>
                  <div class="point-item">
                    <i class="fas fa-users"></i>
-                   <span class="point-label">PG</span>
-                   <span class="point-value">{{ children_points[idx] }}</span>
+                   <span class="point-label">VG</span>
+                   <span class="point-value">{{ children_points[idx] != null ? children_points[idx] : volumeGroup(child) }}</span>
                  </div>
                </div>
              </div>
@@ -492,16 +483,16 @@
               <div class="info-section">
                 <h4 class="section-title">
                   <i class="fas fa-chart-line"></i>
-                  Puntos y Rendimiento
+                  Compras y volumen (mes actual)
                 </h4>
                 <div class="points-display">
                   <div class="point-card">
                     <div class="point-icon">
-                      <i class="fas fa-user"></i>
+                      <i class="fas fa-box-open"></i>
                     </div>
                     <div class="point-details">
-                      <span class="point-label">Puntos Personales</span>
-                      <span class="point-value">{{ selec_node.points || 0 }}</span>
+                      <span class="point-label">Compras personales</span>
+                      <span class="point-value">{{ volumePersonal(selec_node) }}</span>
                     </div>
                   </div>
                   <div class="point-card">
@@ -509,17 +500,8 @@
                       <i class="fas fa-users"></i>
                     </div>
                     <div class="point-details">
-                      <span class="point-label">Puntos de Afiliación</span>
-                      <span class="point-value">{{ selec_node.affiliation_points || 0 }}</span>
-                    </div>
-                  </div>
-                  <div class="point-card">
-                    <div class="point-icon">
-                      <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="point-details">
-                      <span class="point-label">Puntos Grupales</span>
-                      <span class="point-value">{{ totalPoints}}</span>
+                      <span class="point-label">Volumen grupal</span>
+                      <span class="point-value">{{ volumeGroup(selec_node) }}</span>
                     </div>
                   </div>
                 </div>
@@ -606,6 +588,16 @@ const TreeNode = {
     isSelected() {
       return this.selectedId === this.node.id
     },
+    displayPersonalVolume() {
+      const n = this.node
+      if (n.personalProductCount != null) return n.personalProductCount
+      return Number(n.points) || 0
+    },
+    displayGroupVolume() {
+      const n = this.node
+      if (n.groupProductCount != null) return n.groupProductCount
+      return Number(n.total_points) || 0
+    },
   },
   methods: {
     async expandNode(e) {
@@ -623,6 +615,7 @@ const TreeNode = {
         // Asignar los puntos grupales a cada hijo
         this.children.forEach((child, index) => {
           if (this.children_points[index] !== undefined) {
+            child.groupProductCount = this.children_points[index]
             child.total_points = this.children_points[index]
           }
         })
@@ -664,9 +657,8 @@ const TreeNode = {
         h('i', { class: ['fas', 'fa-gem', this.node.rank], style: { fontSize: '16px', marginRight: '4px' } }),
         h('span', { style: { fontWeight: 'bold', color: '#333' } }, this.node.name),
         h('br'),
-        h('span', { style: { color: '#888', fontSize: '12px' } }, `Puntos personales: ${this.node.points}`),
-        (this.node.affiliation_points && this.node.affiliation_points > 0) ? h('span', { style: { color: '#ff9800', fontSize: '12px', marginLeft: '8px' } }, `Afiliación: ${this.node.affiliation_points}`) : null,
-        (this.node.total_points !== undefined) ? h('span', { style: { color: '#00bcd4', fontSize: '12px', marginLeft: '8px', fontWeight: 'bold' } }, `Total grupal: ${this.node.total_points}`) : null,
+        h('span', { style: { color: '#888', fontSize: '12px' } }, `Compras personales: ${this.displayPersonalVolume}`),
+        (this.node.total_points !== undefined || this.node.groupProductCount !== undefined) ? h('span', { style: { color: '#00bcd4', fontSize: '12px', marginLeft: '8px', fontWeight: 'bold' } }, `Volumen grupal: ${this.displayGroupVolume}`) : null,
       ]),
       this.loading ? h('div', { style: { color: '#00bcd4', fontSize: '12px', marginTop: '4px' } }, [
         h('i', { class: ['fas', 'fa-spinner', 'fa-spin'], style: { marginRight: '6px' } }), 'Cargando...']
@@ -806,6 +798,16 @@ export default {
     next();
   },
   methods: {
+    volumePersonal(node) {
+      if (!node) return 0
+      if (node.personalProductCount != null) return node.personalProductCount
+      return Number(node.points) || 0
+    },
+    volumeGroup(node) {
+      if (!node) return 0
+      if (node.groupProductCount != null) return node.groupProductCount
+      return Number(node.total_points) || 0
+    },
     async GET(id) {
       this.loading = true
       const { data } = await api.tree(this.session, id)
