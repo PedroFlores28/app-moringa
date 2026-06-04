@@ -757,7 +757,17 @@ export default {
       return this.notification;
     },
     photo() {
-      return this.$store.state.photo || 'https://ik.imagekit.io/asu/Lehaim/avatar_bEyc3MFLf.png';
+      const p = this.$store.state.photo;
+      if (!p || 
+          p === 'https://ik.imagekit.io/asu/Lehaim/avatar_bEyc3MFLf.png' || 
+          p === 'https://ik.imagekit.io/asu/impulse/avatar_cWVgh_GNP.png' || 
+          p.includes('avatar-masculino.png') || 
+          p.includes('avatar-unisex.png') || 
+          p.includes('avatar_cWVgh_GNP.png') || 
+          p.includes('avatar_bEyc3MFLf.png')) {
+        return '/avatars/avatar-unisex.png?v=4';
+      }
+      return p;
     },
     tree() {
       return this.$store.state.tree;
