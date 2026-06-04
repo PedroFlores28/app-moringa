@@ -164,6 +164,24 @@
         </div>
       </div>
 
+      <!-- Género -->
+      <div class="form-field">
+        <div class="input-container">
+          <select
+            id="gender"
+            class="input-register-new select-field"
+            v-model="gender"
+            :class="{ error: error.gender }"
+            @change="reset('gender')"
+          >
+            <option value="" disabled>Género</option>
+            <option v-for="opt in genderOptions" :key="opt.value" :value="opt.value">
+              {{ opt.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <!-- Depto -->
       <div class="form-field">
         <div class="input-container">
@@ -278,6 +296,12 @@ export default {
       sponsorCode: null,
       acceptTerms: false,
       showPassword: false,
+      gender: "",
+      genderOptions: [
+        { value: "masculino", label: "Masculino" },
+        { value: "femenino", label: "Femenino" },
+        { value: "otro", label: "Otro" },
+      ],
       department: "",
       code: null,
       check: false,
@@ -304,6 +328,7 @@ export default {
         email: false,
         phone: false,
         department: false,
+        gender: false,
         password: false,
         sponsorCode: false,
       },
@@ -319,6 +344,7 @@ export default {
         if (msg === "email already use") return "El correo electrónico ya está en uso";
         if (msg === "code not found") return "El código de invitación no existe";
         if (msg === "code required") return "El código de patrocinador es requerido";
+        if (msg === "gender required") return "Debe seleccionar el género";
         return msg;
       },
     },
@@ -386,7 +412,7 @@ export default {
   },
   methods: {
     async submit() {
-      const { dni, name, lastName, password, phone, sponsorCode, email, birthDate, acceptTerms, department } = this;
+      const { dni, name, lastName, password, phone, sponsorCode, email, birthDate, acceptTerms, department, gender } = this;
 
       if (!dni) {
         this.error.dni = true;
@@ -475,6 +501,11 @@ export default {
         this.alert = "El telefono se requiere";
         return;
       }
+      if (!gender) {
+        this.error.gender = true;
+        this.alert = "Debe seleccionar el género";
+        return;
+      }
       if (!department) {
         this.error.department = true;
         this.alert = "Debe seleccionar un departamento";
@@ -498,6 +529,7 @@ export default {
           phone,
           code: sponsorCode,
           department,
+          gender,
         });
 
         this.sending = false;
@@ -514,7 +546,8 @@ export default {
         }
 
         this.$store.commit("SET_SESSION", data.session);
-        
+        if (data.photo) this.$store.commit("SET_PHOTO", data.photo);
+
         // Redirigir según el estado de afiliación
         if (data.affiliated) {
           this.$router.push("/dashboard");
@@ -539,6 +572,7 @@ export default {
       if (name == "password") this.error.password = false;
       if (name == "sponsorCode") this.error.sponsorCode = false;
       if (name == "department") this.error.department = false;
+      if (name == "gender") this.error.gender = false;
     },
 
     async onDepartmentChange() {
