@@ -41,8 +41,8 @@
         </div>
       </div>
 
-      <!-- Búsqueda y filtros -->
-      <div class="filters-section">
+      <!-- Búsqueda y filtros (solo en Directos) -->
+      <div v-if="activeTab === 'directos'" class="filters-section">
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
           <input
@@ -70,6 +70,12 @@
             :class="['tab', { active: activeTab === 'directos' }]"
           >
             Directos
+          </button>
+          <button
+            @click="activeTab = 'patrocinador'"
+            :class="['tab', { active: activeTab === 'patrocinador' }]"
+          >
+            Patrocinador
           </button>
         </div>
         
@@ -122,6 +128,57 @@
             </tr>
             <tr v-if="filteredFrontals.length === 0">
               <td colspan="6" class="no-data">No hay frontales disponibles</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Patrocinador directo -->
+      <div v-if="activeTab === 'patrocinador'" class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Código</th>
+              <th>E-mail</th>
+              <th>Teléfono</th>
+              <th>Afiliado</th>
+              <th>Activo</th>
+              <th>Productos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="sponsor">
+              <td>{{ sponsor.name }} {{ sponsor.lastName }}</td>
+              <td>{{ sponsor.token || '—' }}</td>
+              <td>{{ sponsor.email || '-' }}</td>
+              <td>{{ sponsor.phone || '-' }}</td>
+              <td>
+                <span :class="['status-badge', { 'affiliated': sponsor.affiliated, 'not-affiliated': !sponsor.affiliated }]">
+                  <i :class="['fas', sponsor.affiliated ? 'fa-check' : 'fa-times']"></i>
+                  {{ sponsor.affiliated ? 'Sí' : 'NO' }}
+                </span>
+              </td>
+              <td>
+                <span :class="['status-badge', { 'activated': sponsor.activated, 'not-activated': !sponsor.activated }]">
+                  <i :class="['fas', sponsor.activated ? 'fa-check' : 'fa-times']"></i>
+                  {{ sponsor.activated ? 'Sí' : 'NO' }}
+                </span>
+              </td>
+              <td>
+                <span class="score-cell">
+                  {{ sponsor.groupProductCount || 0 }}
+                  <i
+                    class="fab fa-whatsapp whatsapp-icon"
+                    @click.stop="openWhatsApp(sponsor.phone)"
+                    :class="{ 'disabled': !sponsor.phone }"
+                    :title="sponsor.phone ? `Abrir WhatsApp: ${sponsor.phone}` : 'Sin teléfono'"
+                  ></i>
+                </span>
+              </td>
+            </tr>
+            <tr v-else>
+              <td colspan="7" class="no-data">No tiene patrocinador registrado</td>
             </tr>
           </tbody>
         </table>
@@ -202,6 +259,7 @@ export default {
       id: null,
       directs: null,
       frontals: [],
+      sponsor: null,
       loading: true,
       // branch: null,
       token: null,
@@ -329,6 +387,7 @@ export default {
     // this.directs  = data.directs.reverse()
     this.directs = data.directs;
     this.frontals = data.frontals;
+    this.sponsor = data.sponsor || null;
     // this.childs = data.childs
     // this.names  = data.names
   },
