@@ -723,7 +723,7 @@ export default {
       return (this.rankCycle && this.rankCycle.cyclesLabel) || "0 / 4";
     },
     rankCycleProductsPerCycle() {
-      return (this.rankCycle && this.rankCycle.productsPerCycle) || 600;
+      return (this.rankCycle && this.rankCycle.productsPerCycle) || 350;
     },
     gaugeIsComplete() {
       return this.gaugePct >= 100;
