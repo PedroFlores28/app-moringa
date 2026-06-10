@@ -759,9 +759,8 @@ export default {
     _rank(val) {
       if(val == 'none')              return 'Ninguno'
       if(val == 'active')            return 'ACTIVO'
-      if(val == 'star')              return 'BRONCE'
-      if(val == 'master')            return 'PLATA'
-      if(val == 'silver')            return 'PLATA'
+      if(val == 'star' || val == 'master' || val == 'silver') return 'PLATA'
+      if(val == 'bronce' || val == 'bronze' || val == 'BRONCE') return 'PLATA'
       if(val == 'gold')              return 'ORO'
       if(val == 'sapphire')          return 'ZAFIRO'
       if(val == 'RUBI')              return 'DIAMANTE RUBI'
@@ -889,7 +888,7 @@ export default {
         // Formato antiguo (MongoDB legacy)
         'none'            : '',
         'active'          : '',
-        'star'            : 'bronze',
+        'star'            : 'silver',
         'master'          : 'silver',
         'silver'          : 'silver',
         'gold'            : 'gold',
@@ -901,7 +900,7 @@ export default {
         'DIAMANTE ESTRELLA': 'diamond-star',
         // Formato nuevo (Go engine)
         'ACTIVO'           : '',
-        'BRONCE'           : 'bronze',
+        'BRONCE'           : 'silver',
         'PLATA'            : 'silver',
         'ORO'              : 'gold',
         'RUBÍ'             : 'ruby',
@@ -910,7 +909,7 @@ export default {
         'EMBAJADOR SIFRAH' : 'ambassador',
         'DIAMANTE CORONA'  : 'ambassador',
       };
-      return rank in classMap ? classMap[rank] : 'bronze';
+      return rank in classMap ? classMap[rank] : 'silver';
     },
     
     getMembershipText(child) {
@@ -919,7 +918,7 @@ export default {
         // Formato antiguo (MongoDB legacy)
         'none'            : 'Ninguno',
         'active'          : 'ACTIVO',
-        'star'            : 'BRONCE',
+        'star'            : 'PLATA',
         'master'          : 'PLATA',
         'silver'          : 'PLATA',
         'gold'            : 'ORO',
@@ -931,7 +930,7 @@ export default {
         'DIAMANTE ESTRELLA': 'DIAMANTE ESTRELLA',
         // Formato nuevo (Go engine)
         'ACTIVO'           : 'ACTIVO',
-        'BRONCE'           : 'BRONCE',
+        'BRONCE'           : 'PLATA',
         'PLATA'            : 'PLATA',
         'ORO'              : 'ORO',
         'RUBÍ'             : 'RUBÍ',
@@ -940,7 +939,7 @@ export default {
         'EMBAJADOR SIFRAH' : 'EMBAJADOR CLASSMORINGA',
         'DIAMANTE CORONA'  : 'DIAMANTE CORONA',
       };
-      return textMap[rank] !== undefined ? textMap[rank] : (rank || 'BRONCE');
+      return textMap[rank] !== undefined ? textMap[rank] : (rank || 'PLATA');
     },
     
     getStatusClass(child) {

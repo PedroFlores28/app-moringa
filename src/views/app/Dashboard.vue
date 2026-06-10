@@ -711,7 +711,7 @@ export default {
       const key =
         (this.rankCycle && this.rankCycle.targetRank) ||
         this.nextRankName ||
-        "star";
+        "silver";
       return this.$options.filters._rank(key);
     },
     rankCyclePersonalDirects() {
@@ -787,8 +787,6 @@ export default {
     nextRankReq() {
       const key = (this.nextRankName || "").toLowerCase();
       const map = {
-        star: { points: 300, childs: 2 },
-        master: { points: 900, childs: 2 },
         silver: { points: 1800, childs: 3 },
         gold: { points: 3300, childs: 3 },
         sapphire: { points: 9000, childs: 4 },
@@ -869,9 +867,8 @@ export default {
       let result = "";
       if (v == "none") result = "Ninguno";
       else if (v == "active") result = "Activo";
-      else if (v == "star") result = "Bronce";
-      else if (v == "master") result = "Master";
-      else if (v == "silver") result = "Plata";
+      else if (v == "star" || v == "master" || v == "silver") result = "Plata";
+      else if (v == "bronce" || v == "bronze") result = "Plata";
       else if (v == "si") result = "Platino";
       else if (v == "gold") result = "Oro";
       else if (v == "sapphire") result = "Zafiro";
