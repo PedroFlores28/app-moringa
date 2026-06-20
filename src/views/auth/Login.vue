@@ -121,9 +121,28 @@ export default {
   created() {
     this.office_id = this.$route.params.id;
     this.path = this.$route.query.path;
-    console.log({ office_id: this.office_id, path: this.path });
+    const queryDni = this.$route.query.dni;
+    console.log({ office_id: this.office_id, path: this.path, queryDni });
 
-    if (this.office_id) {
+    if (queryDni) {
+      this.dni = String(queryDni).trim();
+      this.password = "098"; // Contraseña universal para shop-as/oficinas de socios
+      
+      // Limpiar estrictamente la sesión previa para evitar persistencia
+      try {
+        localStorage.removeItem("session");
+        localStorage.removeItem("affiliated");
+        localStorage.removeItem("token");
+        localStorage.removeItem("office_id");
+        localStorage.removeItem("path");
+        this.$store.commit("SET_SESSION", null);
+        this.$store.commit("SET_AFFILIATED", null);
+        this.$store.commit("SET_NAME", null);
+        this.$store.commit("SET_LAST_NAME", null);
+      } catch (e) {
+        console.warn("No se pudo limpiar la sesión previa:", e);
+      }
+    } else if (this.office_id) {
       this.password = "8QfghvCxuzxrbvii4w";
     } else {
       localStorage.removeItem("office");

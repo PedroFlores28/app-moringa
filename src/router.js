@@ -320,6 +320,63 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
+  // SI LA RUTA TIENE UN PARÁMETRO DNI, significa que el administrador quiere
+  // ingresar a otra cuenta. Limpiamos la sesión anterior inmediatamente
+  // para evitar que el guard lo redirija automáticamente al dashboard anterior.
+  if (to.query.dni) {
+    console.log("🔐 Router: Nueva consulta de DNI detectada, limpiando sesión previa...");
+    store.commit('SET_SESSION', null);
+    store.commit('SET_AFFILIATED', null);
+    store.commit('SET_NAME', null);
+    store.commit('SET_LAST_NAME', null);
+    store.commit('SET_DNI', null);
+    try {
+      localStorage.removeItem('session');
+      localStorage.removeItem('affiliated');
+      localStorage.removeItem('token');
+      localStorage.removeItem('office_id');
+      localStorage.removeItem('path');
+    } catch(e) {}
+  }
+
+  // ============================================================
+  // SUDO LOGIN INTERCEPTOR — Inyección directa en el router
+  // Si la URL contiene ?session=..., es una sesión administrativa
+  // La procesamos aquí antes de que cualquier componente cargue
+  // ============================================================
+  if (to.query.session) {
+    console.log('🔐 Router: Sesión administrativa detectada, inyectando...');
+    
+    const sessionVal = to.query.session;
+    const affiliated = to.query.affiliated !== 'false';
+    
+    store.commit('SET_SESSION', sessionVal);
+    store.commit('SET_AFFILIATED', affiliated);
+    
+    if (to.query.name)     store.commit('SET_NAME', to.query.name);
+    if (to.query.lastName) store.commit('SET_LAST_NAME', to.query.lastName);
+    if (to.query.dni)      store.commit('SET_DNI', to.query.dni);
+    
+    try {
+      localStorage.setItem('session', sessionVal);
+      localStorage.setItem('affiliated', String(affiliated));
+      localStorage.removeItem('office_id');
+      localStorage.removeItem('path');
+    } catch(e) { /* bloqueado en iframe, usamos solo el store */ }
+    
+    // Redirigir a la ruta destino sin los parámetros sensibles en la URL
+    const targetPath = to.query.path || (affiliated ? 'dashboard' : 'affiliation');
+    const cleanPath = '/' + targetPath.replace(/^\//, '');
+    
+    console.log('🔐 Router: Redirigiendo a', cleanPath);
+    return next({ path: cleanPath, replace: true });
+  }
+
+  // /sudo-login sin session param — enviar a login normal
+  if (to.path === '/sudo-login') {
+    return next('/login');
+  }
+
   // Permitir acceso a rutas públicas sin autenticación
   const isPublicRoute = to.matched.some(record => record.meta.public)
   const isSharedStorePath = to.path.startsWith('/tienda/')
