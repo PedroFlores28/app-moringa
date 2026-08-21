@@ -773,7 +773,7 @@ export default {
           valueClass: active ? "nivel-stat-value--active" : "nivel-stat-value--inactive",
         },
         {
-          label: "Compras personales",
+          label: "Total de Compras Personales",
           value: String(personal),
           icon: "fas fa-box-open",
         },
