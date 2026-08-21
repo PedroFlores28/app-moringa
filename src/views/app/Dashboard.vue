@@ -763,7 +763,7 @@ export default {
       return [
         {
           label: "Compra mensual",
-          value: "Bs " + this.formatMoney(this.monthlyPurchaseBs),
+          value: "Bs " + this.formatMoney(this.monthlyPurchaseBs) + " | " + personal + (personal === 1 ? " producto" : " productos"),
           icon: "fas fa-shopping-cart",
         },
         {
