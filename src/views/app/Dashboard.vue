@@ -22,7 +22,7 @@
 
           <div class="md-card md-card-nivel">
 
-            <h3 class="md-card-title nivel-card-title">Nivel Actual</h3>
+            <h3 class="md-card-title nivel-card-title">Rango Logrado</h3>
 
             <div class="nivel-body">
 
@@ -32,7 +32,7 @@
                   <nivel-diamond-svg />
                 </div>
 
-                <span class="nivel-rank-name">{{ rank | _rank }}</span>
+                <span class="nivel-rank-name">Ninguno</span>
 
               </div>
 
