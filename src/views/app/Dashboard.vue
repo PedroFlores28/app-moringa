@@ -183,7 +183,13 @@
 
                       <i class="fas fa-info-circle" aria-hidden="true"></i>
 
-                      Cada ciclo requiere <strong>{{ rankCycleProductsPerCycle }}</strong> productos
+                      <template v-if="monthlyActive">
+                        Cada ciclo requiere <strong>{{ rankCycleProductsPerCycle }}</strong> productos
+                      </template>
+                      <template v-else>
+                        Usuario inactivo. No acumula volumen ni requisitos.
+                        <span v-if="cycle1Locked"> El Ciclo 1 del rango alcanzado se mantiene.</span>
+                      </template>
 
                     </p>
 
@@ -199,11 +205,17 @@
 
                       class="rango-cycle-card"
 
-                      :class="'rango-cycle-card--' + c.status"
+                      :class="[
+                        'rango-cycle-card--' + c.status,
+                        { 'rango-cycle-card--locked': c.locked }
+                      ]"
 
                     >
 
-                      <span class="rango-cycle-name">{{ c.label }}</span>
+                      <span class="rango-cycle-name">
+                        {{ c.label }}
+                        <i v-if="c.locked" class="fas fa-lock" aria-hidden="true"></i>
+                      </span>
 
                       <span
                         class="rango-cycle-badge"
@@ -598,6 +610,7 @@ export default {
       monthlyActive: false,
       minActivePurchaseBs: 360,
       rankCycle: null,
+      cycle1Locked: false,
     };
   },
   computed: {
@@ -1007,6 +1020,7 @@ export default {
     this.monthlyActive = !!data.monthlyActive;
     this.minActivePurchaseBs = Number(data.minActivePurchaseBs) || 360;
     this.rankCycle = data.rankCycle || null;
+    this.cycle1Locked = !!(data.cycle1Locked || (data.rankCycle && data.rankCycle.cycle1Locked));
     if (data.rankCycle && data.rankCycle.overallPct != null) {
       this.nextRankPercentage = data.rankCycle.overallPct;
     }
